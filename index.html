@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <title>Happy Valentine's Day, Anshika!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to bottom, #ffe6f2, #ffffff);
+            color: #d63384;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+        input {
+            -webkit-user-select: text;
+            user-select: text;
+        }
+        .section {
+            margin: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        img {
+            max-width: 300px;
+            border-radius: 50%; /* Circular shape */
+            border: 5px solid #d63384;
+            margin: 20px 0;
+        }
+        .question {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap; /* For mobile */
+        }
+        button {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.5em;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 120px;
+            min-height: 60px;
+            -webkit-appearance: none;
+            appearance: none;
+            touch-action: manipulation;
+        }
+        #yes {
+            background-color: #d63384;
+            color: white;
+        }
+        #yes:hover {
+            background-color: #b02a6b;
+            transform: scale(1.1);
+        }
+        #no {
+            background-color: #f8d7da;
+            color: #721c24;
+            position: relative;
+        }
+        #no:hover {
+            animation: moveAway 0.5s ease-in-out;
+        }
+        @keyframes moveAway {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(100px); }
+            50% { transform: translateY(-50px); }
+            75% { transform: translateX(-100px); }
+            100% { transform: translateY(0); }
+        }
+        .emoji {
+            font-size: 1.2em;
+        }
+        .message {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 60px 25px 25px 25px; /* More top padding for mobile close button */
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 85%; /* Slightly smaller for mobile */
+            font-size: 1.1em;
+            line-height: 1.6;
+            z-index: 1000;
+            max-height: 75vh; /* Prevent overflow on mobile */
+            overflow-y: auto; /* Scroll if needed */
+        }
+        .message.show {
+            display: block;
+        }
+        .close-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #d63384;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 35px; /* Slightly smaller for better fit */
+            height: 35px;
+            cursor: pointer;
+            font-size: 1.3em;
+            line-height: 35px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .quiz {
+            display: none;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .quiz.show {
+            display: block;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+        }
+        .option-btn {
+            background-color: #ffe6f2;
+            color: #d63384;
+            border: 2px solid #d63384;
+            border-radius: 10px;
+            padding: 15px 25px;
+            cursor: pointer;
+            font-size: 1.2em;
+            min-width: 200px;
+            min-height: 60px;
+            -webkit-appearance: none;
+            appearance: none;
+            touch-action: manipulation;
+        }
+        .option-btn:hover {
+            background-color: #d63384;
+            color: white;
+        }
+        .response {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #b02a6b;
+        }
+        .additional-gif {
+            max-width: 200px;
+            height: auto;
+            margin: 10px 0;
+            border-radius: 0;
+            border: none;
+        }
+        .date-section {
+            display: none;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .date-section.show {
+            display: block;
+        }
+        input[type="text"] {
+            padding: 10px;
+            border: 2px solid #d63384;
+            border-radius: 10px;
+            font-size: 1.2em;
+            margin: 10px 0;
+            width: 200px;
+            -webkit-appearance: none;
+            appearance: none;
+            min-height: 50px;
+        }
+        .submit-btn {
+            background-color: #d63384;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 15px 25px;
+            cursor: pointer;
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+        .submit-btn:hover {
+            background-color: #b02a6b;
+        }
+        .wrong-gif {
+            display: none;
+            max-width: 200px;
+            height: auto;
+            margin: 20px 0;
+            border-radius: 0;
+            border: none;
+        }
+        .hug-section {
+            display: none;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .hug-section.show {
+            display: block;
+        }
+        .hug-gif {
+            display: none;
+            max-width: 300px;
+            height: auto;
+            margin: 20px auto;
+            border-radius: 10px;
+            border: 3px solid #d63384;
+        }
+        .hug-gif.show {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .photos-section {
+            display: none;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .photos-section.show {
+            display: block;
+        }
+        .photos {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .photos img {
+            max-width: 150px;
+            height: auto;
+            border-radius: 10px;
+            border: 2px solid #d63384;
+        }
+        .special-message {
+            display: none;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            font-size: 1.2em;
+            line-height: 1.6;
+            text-align: left;
+            max-width: 90%;
+        }
+        .special-message.show {
+            display: block;
+        }
+        .final-section {
+            display: none;
+            margin: 40px 20px;
+            padding: 30px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            text-align: center;
+        }
+        .final-section.show {
+            display: block;
+        }
+        .final-gif {
+            max-width: 400px;
+            height: auto;
+            margin: 20px auto;
+            border-radius: 15px;
+            border: 4px solid #d63384;
+            display: block;
+        }
+        /* Floating Hearts Animation */
+        .heart {
+            position: fixed;
+            bottom: -50px;
+            font-size: 2em;
+            animation: float-up 6s ease-in infinite;
+            pointer-events: none;
+            z-index: 999;
+        }
+        @keyframes float-up {
+            0% {
+                bottom: -50px;
+                opacity: 1;
+            }
+            100% {
+                bottom: 100vh;
+                opacity: 0;
+            }
+        }
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: #d63384;
+            position: fixed;
+            top: -10px;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+        /* Photo Gallery Modal */
+        .photo-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+        .photo-modal.show {
+            display: flex;
+        }
+        .modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90vh;
+            text-align: center;
+        }
+        .modal-content img {
+            max-width: 100%;
+            max-height: 70vh;
+            border-radius: 10px;
+            border: 5px solid #d63384;
+        }
+        .modal-caption {
+            color: white;
+            font-size: 1.5em;
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+        .modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 2.5em;
+            cursor: pointer;
+            background: #d63384;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+        }
+        .photos img {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .photos img:hover {
+            transform: scale(1.1);
+        }
+        /* Valentine's Week Section */
+        .valentines-week {
+            display: none;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .valentines-week.show {
+            display: block;
+        }
+        .days-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 25px;
+            margin: 30px auto;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 10px;
+        }
+        @media (max-width: 768px) {
+            .days-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+                padding: 5px;
+                margin: 20px auto;
+            }
+        }
+        @media (max-width: 480px) {
+            .days-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+                padding: 5px;
+            }
+        }
+        .day-card {
+            perspective: 1000px;
+            cursor: pointer;
+            height: 200px;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+        @media (max-width: 480px) {
+            .day-card {
+                height: 180px;
+                margin-bottom: 10px;
+            }
+        }
+        .day-card.flipped {
+            z-index: 10;
+        }
+        .day-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .day-card.flipped .day-card-inner {
+            transform: rotateY(180deg);
+        }
+        .day-front, .day-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        @media (max-width: 480px) {
+            .day-front, .day-back {
+                padding: 8px;
+                border-radius: 10px;
+            }
+        }
+        .day-front {
+            background: linear-gradient(135deg, #ffeef8, #ffe6f2);
+            border: 3px solid #d63384;
+        }
+        .day-back {
+            background: linear-gradient(135deg, #d63384, #b02a6b);
+            color: white;
+            transform: rotateY(180deg);
+            text-align: center;
+            padding: 15px;
+        }
+        @media (max-width: 480px) {
+            .day-back {
+                padding: 10px;
+            }
+        }
+        .day-back p {
+            font-size: 0.95em;
+            line-height: 1.3;
+            margin: 0;
+            overflow-y: auto;
+            max-height: 100%;
+            word-wrap: break-word;
+        }
+        @media (max-width: 480px) {
+            .day-back p {
+                font-size: 0.85em;
+                line-height: 1.2;
+            }
+        }
+        .day-emoji {
+            font-size: 2.5em;
+            margin-bottom: 8px;
+        }
+        @media (max-width: 480px) {
+            .day-emoji {
+                font-size: 2em;
+                margin-bottom: 5px;
+            }
+        }
+        .day-name {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #d63384;
+            margin: 5px 0;
+        }
+        @media (max-width: 480px) {
+            .day-name {
+                font-size: 0.95em;
+                margin: 3px 0;
+            }
+        }
+        .day-date {
+            font-size: 0.85em;
+            color: #b02a6b;
+        }
+        @media (max-width: 480px) {
+            .day-date {
+                font-size: 0.75em;
+            }
+        }
+        /* Gift Selection Section */
+        .gift-section {
+            display: none;
+            margin: 20px;
+            padding: 30px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .gift-section.show {
+            display: block;
+        }
+        .gifts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin: 30px auto;
+            max-width: 900px;
+        }
+        .gift-option {
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            padding: 15px;
+            border-radius: 15px;
+            background: white;
+            border: 3px solid transparent;
+        }
+        .gift-option:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(214, 51, 132, 0.3);
+            border-color: #d63384;
+        }
+        .gift-option.selected {
+            border-color: #d63384;
+            background: #ffe6f2;
+            transform: scale(1.05);
+        }
+        .gift-option img {
+            max-width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid #d63384;
+        }
+        .gift-name {
+            font-size: 1.3em;
+            margin-top: 15px;
+            color: #d63384;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="section">
+        <h1>Happiesttttttt Valentine's Day to the best girl in the world 💖🌹</h1>
+        <img src="Gadhii1.jpg" alt="My Girlfriend Anshika"> <!-- Replace 'her-image.jpg' with the actual path to her image -->
+    </div>
+    <div class="section">
+        <p class="question">Anshikaaaaaaa, will you please be my valentine??? 💕</p>
+        <img class="additional-gif" src="pucaa garu.gif" alt="Additional Valentine's GIF"> <!-- Replace 'additional-gif.gif' with the actual path to your additional GIF -->
+        <div class="buttons">
+            <button id="yes">Yes 💘</button>
+            <button id="no">No 😢</button>
+        </div>
+    </div>
+
+    <div class="message" id="loveMessage">
+        <button class="close-btn" onclick="closeMessage()">×</button>
+        <p>I love you sooooooooooo much. I just want to hug you right now but I know I can't 😢 but I'm gonna be hugging you, kissing you, adoring you very very soooooon. You know I am the happiest, luckiest guy in the whole world, because I have you. You are the strongest, prettiest, cutest and just bestesttttttt girl in the whole world. I'm never ever gonna stop loving you my babagrill. Stop ka S bhi nhi, I dedicate this and all the upcoming lives to you. Once again Happy Valentine's diwas I love you pyaari ladki.</p>
+        <button id="nextToQuiz" style="margin-top: 20px; background-color: #d63384; color: white; padding: 15px 25px; border-radius: 10px; border: none; cursor: pointer; font-size: 1.2em;">Continue 💕</button>
+    </div>
+
+    <!-- Quiz Section -->
+    <div class="quiz" id="quizSection">
+        <h2>Let's Play a Little Quiz! 💕</h2>
+        <div id="question1">
+            <p class="question">Question 1: Who said I love you first?</p>
+            <div class="options">
+                <button class="option-btn" data-question="1" data-option="A">A. Me</button>
+                <button class="option-btn" data-question="1" data-option="B">B. You</button>
+            </div>
+            <p class="response" id="response1"></p>
+        </div>
+        <div id="question2">
+            <p class="question">Question 2: Who kissed first?</p>
+            <div class="options">
+                <button class="option-btn" data-question="2" data-option="A">A. Me</button>
+                <button class="option-btn" data-question="2" data-option="B">B. You</button>
+            </div>
+            <p class="response" id="response2"></p>
+        </div>
+        <div id="question3">
+            <p class="question">Question 3: You wore my t-shirt thoda time. What was its color?</p>
+            <div class="options">
+                <button class="option-btn" data-question="3" data-option="A">A. Blue</button>
+                <button class="option-btn" data-question="3" data-option="B">B. Green</button>
+                <button class="option-btn" data-question="3" data-option="C">C. Black</button>
+                <button class="option-btn" data-question="3" data-option="D">D. White</button>
+            </div>
+            <p class="response" id="response3"></p>
+        </div>
+        <button id="nextToDate" style="margin-top: 20px; background-color: #d63384; color: white; padding: 15px 25px; border-radius: 10px; border: none; cursor: pointer; font-size: 1.2em;">Next: Date Memory 💕</button>
+    </div>
+
+    <!-- Date Section -->
+    <div class="date-section" id="dateSection">
+        <h2>Enter the date we met and got soooo close (actually close 🙈)</h2>
+        <input type="text" id="dateInput" placeholder="DD/MM/YYYY">
+        <button class="submit-btn" id="submitDate">Submit</button>
+        <img class="wrong-gif" id="wrongGif" src="crying.gif" alt="Wrong Date GIF"> <!-- Replace 'wrong-gif.gif' with the actual path to your wrong date GIF -->
+        <p id="dateResponse" style="font-size: 1.3em; margin-top: 15px; font-weight: bold;"></p>
+    </div>
+
+    <!-- Valentine's Week Section -->
+    <div class="valentines-week" id="valentinesWeek">
+        <h2>Celebrating Every Day with You 💖</h2>
+        <p style="font-size: 1.2em; margin-bottom: 30px;">Click on each day to see my wish for you!</p>
+        <div class="days-grid">
+            <div class="day-card" data-day="rose">
+                <div class="day-card-inner">
+                    <div class="day-front">
+                        <span class="day-emoji">🌹</span>
+                        <p class="day-name">Rose Day</p>
+                        <p class="day-date">Feb 7</p>
+                    </div>
+                    <div class="day-back">
+                        <p>A rose for the most beautiful girl in the world. You make every day feel special 🌹💕</p>
+                    </div>
+                </div>
+            </div>
+            <div class="day-card" data-day="propose">
+                <div class="day-card-inner">
+                    <div class="day-front">
+                        <span class="day-emoji">💍</span>
+                        <p class="day-name">Propose Day</p>
+                        <p class="day-date">Feb 8</p>
+                    </div>
+                    <div class="day-back">
+                        <p>I choose you today, tomorrow, and every day after. Let's grow old together and watch all of the movies ek saath(asking this ghutno pr baith k) 💍✨</p>
+                    </div>
+                </div>
+            </div>
+            <div class="day-card" data-day="chocolate">
+                <div class="day-card-inner">
+                    <div class="day-front">
+                        <span class="day-emoji">🍫</span>
+                        <p class="day-name">Chocolate Day</p>
+                        <p class="day-date">Feb 9</p>
+                    </div>
+                    <div class="day-back">
+                        <p>You're sweeter than any chocolate(literally😚). But I'll still get you tons when I see you! 🍫😋</p>
+                    </div>
+                </div>
+            </div>
+            <div class="day-card" data-day="teddy">
+                <div class="day-card-inner">
+                    <div class="day-front">
+                        <span class="day-emoji">🧸</span>
+                        <p class="day-name">Teddy Day</p>
+                        <p class="day-date">Feb 10</p>
+                    </div>
+                    <div class="day-back">
+                        <p>Meri teddy bear to aap ho chotuuu sii 😝</p>
+                    </div>
+                </div>
+            </div>
+            <div class="day-card" data-day="promise">
+                <div class="day-card-inner">
+                    <div class="day-front">
+                        <span class="day-emoji">🤞</span>
+                        <p class="day-name">Promise Day</p>
+                        <p class="day-date">Feb 11</p>
+                    </div>
+                    <div class="day-back">
+                        <p>I promise to always be there for you, to love you, and to make you smile every single day 🤞💖</p>
+                    </div>
+                </div>
+            </div>
+            <div class="day-card" data-day="hug">
+                <div class="day-card-inner">
+                    <div class="day-front">
+                        <span class="day-emoji">🤗</span>
+                        <p class="day-name">Hug Day</p>
+                        <p class="day-date">Feb 12</p>
+                    </div>
+                    <div class="day-back">
+                        <p>Sending you the tightest virtual hug! Can't wait to hug you for real very soon 🤗💕</p>
+                    </div>
+                </div>
+            </div>
+            <div class="day-card" data-day="kiss">
+                <div class="day-card-inner">
+                    <div class="day-front">
+                        <span class="day-emoji">💋</span>
+                        <p class="day-name">Kiss Day</p>
+                        <p class="day-date">Feb 13</p>
+                    </div>
+                    <div class="day-back">
+                        <p>Saving all my kisses for when we meet. Miss you so much babygrill 💋😘</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Photos Section -->
+    <div class="photos-section" id="photosSection">
+        <h2>Some cute and my favourite pictures of that day 💖</h2>
+        <p style="font-size: 1.1em; margin-bottom: 15px; color: #d63384;">Click on the pictures! 📸</p>
+        <div class="photos">
+            <img src="Uss2.jpg" alt="Photo 1" class="gallery-photo" data-caption="Our first picture together, will always be special 🥺💕"> <!-- Replace with actual photo paths and captions -->
+            <img src="Uss3.jpg" alt="Photo 2" class="gallery-photo" data-caption="Aapke haath was on my gaal all the time 😭">
+            <img src="Uss.jpg" alt="Photo 3" class="gallery-photo" data-caption="My fav picture of us. Look at our shiny eyes, our smile🥺🥺">
+        </div>
+    </div>
+
+    <!-- Hug Question Section -->
+    <div class="hug-section" id="hugSection">
+        <h2>If you want a hug, tell me who's the most beautiful girl in the world? 🤗</h2>
+        <input type="text" id="hugInput" placeholder="Type the answer...">
+        <button class="submit-btn" id="submitHug">Submit</button>
+        <img class="hug-gif" id="hugGif" src="pucca hug.gif" alt="Hug GIF"> <!-- Replace 'hug-gif.gif' with your hug GIF -->
+        <p id="hugResponse" style="font-size: 1.3em; margin-top: 15px; font-weight: bold;"></p>
+    </div>
+
+    <!-- Special Message Section -->
+    <div class="special-message" id="specialMessage">
+        <h2>A Special Message for You 💖</h2>
+        <p>Anshikaaa, I love you to death. And I'm really really sorry hum aaj abhi ek saath nhi hai, I'm trying my best to be there ASAP. Bas thoda time aur wait krlo please 😔😔 I'll be there permanently... phir we'll go all the cafes and idhr udhr ek saath. Sorrrrryyyyyyy. And main bas ye baatein nhi krra i mean it too. I hope you know that, I really love you and I love being loved by you. And ik we will have good days and bad days bhii, I want to be there with you on both of these days, especially bad days. I swear I cant seee you sad bohttttttt tension hoti hai yaaar aapki even your silence makes me overthink .I am really really really scared to lose you even the thought of it makes me cry sometimes because I love youu soooooo much na ki kya btau. I swear I do not a want life jiska aap part nhi ho. My life was black and white before i knew you, you are the color. So, abhi take care of yourself because jab main aaunga to I'll take care of you ekdum acche se. Yaar and most important thing, let's celebrate Valentine's day and every other day for the next 100 years saath m smjhi naaa, I want to have a future with you because ye jo hain naa hmaare beech it's soooo rare I can't and I won't let you go. I promise to be always there for you in this and every other lifetime even jb hum bhooot and chudail ban jayenge (aap toh abhi bhi ho😭). I loveeeeeeeee you 3000. Hum saath rahenge toh sb sahi ho jayegaa,yahan tak aaye hai hum koi to reason hoga na. So that's it thoda bada hogya but it's straight from my heart. BTW march m aara hun m yaad rkhna bhoolna nhi😡😡😡.</p>
+    </div>
+
+    <!-- Gift Selection Section -->
+    <div class="gift-section" id="giftSection">
+        <h2>One Last Thing... 🎁</h2>
+        <p style="font-size: 1.3em; margin-bottom: 20px;">Which gift would you like for Valentine's Day? Click on one! 💕</p>
+        <div class="gifts-grid">
+            <div class="gift-option" data-gift="gift1">
+                <img src="watch.png" alt="Gift 1"> <!-- Replace with your first gift image -->
+                <p class="gift-name">Golden watch for my womaniyaa</p> <!-- Change this to your gift name -->
+            </div>
+            <div class="gift-option" data-gift="gift2">
+                <img src="mug.png" alt="Gift 2"> <!-- Replace with your second gift image -->
+                <p class="gift-name">Nazar na lage Mug</p> <!-- Change this to your gift name -->
+            </div>
+            <div class="gift-option" data-gift="gift3">
+                <img src="diary.png" alt="Gift 3"> <!-- Replace with your third gift image -->
+                <p class="gift-name">Diary + Kinder Joy</p> <!-- Change this to your gift name -->
+            </div>
+            <div class="gift-option" data-gift="gift4">
+                <img src="sunflower.png" alt="Gift 4"> <!-- Replace with your fourth gift image -->
+                <p class="gift-name">Sunflower woh  bhi crochet</p> <!-- Change this to your gift name -->
+            </div>
+        </div>
+        <p id="giftResponse" style="font-size: 1.4em; margin-top: 30px; font-weight: bold; display: none;"></p>
+    </div>
+
+    <!-- Final Closing Section -->
+    <div class="final-section" id="finalSection">
+        <p style="font-size: 1.3em; margin-bottom: 20px;">I really really hope you liked this whatever I made 💕</p>
+        <h1 style="font-size: 3em; margin: 30px 0; color: #d63384;">I LOVE YOU 💖</h1>
+        <h2 style="font-size: 2em; margin: 20px 0;">Phirse Happy Valentine's Day! 🌹</h2>
+        <img class="final-gif" src="pucca kiss.gif" alt="Final Valentine GIF"> <!-- Replace 'final-gif.gif' with your final GIF -->
+        
+        <!-- Signature Section -->
+        <div style="margin-top: 50px; text-align: center;">
+            <p style="font-size: 1.5em; margin: 10px 0;">Yours truly,</p>
+            <p style="font-size: 1.3em; margin: 10px 0;">Aapko duniya m sbse zda pyaar krne waala</p>
+            <p style="font-size: 1.4em; margin: 10px 0; font-weight: bold;">Shashwat aapka gadheda 🐴</p>
+        </div>
+    </div>
+
+    <!-- Photo Modal -->
+    <div class="photo-modal" id="photoModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">×</button>
+            <img id="modalImage" src="" alt="Photo">
+            <p class="modal-caption" id="modalCaption"></p>
+        </div>
+    </div>
+
+    <!-- Background Song with Play Button for iOS -->
+    <div id="musicControl" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999;">
+        <button id="playMusicBtn" style="background-color: #d63384; color: white; border: none; border-radius: 50%; width: 60px; height: 60px; font-size: 1.5em; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">🎵</button>
+    </div>
+    <audio id="backgroundSong" src="teenage dreams.mp3" loop preload="auto"></audio> <!-- Replace 'your-song.mp3' with the actual path to your song file -->
+
+    <script>
+        const noButton = document.getElementById('no');
+        const yesButton = document.getElementById('yes');
+        const messageDiv = document.getElementById('loveMessage');
+        const quizSection = document.getElementById('quizSection');
+        const nextToQuizBtn = document.getElementById('nextToQuiz');
+        const nextToDateBtn = document.getElementById('nextToDate');
+        const valentinesWeek = document.getElementById('valentinesWeek');
+        const dateSection = document.getElementById('dateSection');
+        const submitDateBtn = document.getElementById('submitDate');
+        const dateInput = document.getElementById('dateInput');
+        const wrongGif = document.getElementById('wrongGif');
+        const dateResponse = document.getElementById('dateResponse');
+        const hugSection = document.getElementById('hugSection');
+        const submitHugBtn = document.getElementById('submitHug');
+        const hugInput = document.getElementById('hugInput');
+        const hugGif = document.getElementById('hugGif');
+        const hugResponse = document.getElementById('hugResponse');
+        const photosSection = document.getElementById('photosSection');
+        const specialMessage = document.getElementById('specialMessage');
+        const giftSection = document.getElementById('giftSection');
+        const giftResponse = document.getElementById('giftResponse');
+        const finalSection = document.getElementById('finalSection');
+        const backgroundSong = document.getElementById('backgroundSong');
+        const playMusicBtn = document.getElementById('playMusicBtn');
+        const response1 = document.getElementById('response1');
+        const response2 = document.getElementById('response2');
+        const response3 = document.getElementById('response3');
+
+        let musicPlaying = false;
+
+        // Music control for iOS
+        playMusicBtn.addEventListener('click', () => {
+            if (musicPlaying) {
+                backgroundSong.pause();
+                playMusicBtn.textContent = '🎵';
+                musicPlaying = false;
+            } else {
+                backgroundSong.play().then(() => {
+                    playMusicBtn.textContent = '⏸️';
+                    musicPlaying = true;
+                }).catch(err => {
+                    console.log('Audio play failed:', err);
+                });
+            }
+        });
+
+        // Try to play on first user interaction (for iOS)
+        document.body.addEventListener('click', function initAudio() {
+            if (!musicPlaying) {
+                backgroundSong.play().then(() => {
+                    playMusicBtn.textContent = '⏸️';
+                    musicPlaying = true;
+                }).catch(() => {
+                    // User needs to click the music button
+                });
+            }
+        }, { once: true });
+
+        // Improved touch handling for "No" button on iPhone
+        function moveNoButton(e) {
+            if (e) e.preventDefault();
+            const randomX = Math.random() * (window.innerWidth - 150);
+            const randomY = Math.random() * (window.innerHeight - 100);
+            noButton.style.position = 'absolute';
+            noButton.style.left = `${randomX}px`;
+            noButton.style.top = `${randomY}px`;
+        }
+
+        // For desktop
+        noButton.addEventListener('mouseover', moveNoButton);
+        
+        // For mobile/iPhone - prevent default to avoid issues
+        noButton.addEventListener('touchstart', moveNoButton, { passive: false });
+
+        // Yes button - works with both click and touch
+        yesButton.addEventListener('click', () => {
+            backgroundSong.play().catch(() => {});
+            musicPlaying = true;
+            playMusicBtn.textContent = '⏸️';
+            messageDiv.classList.add('show');
+            createConfetti(); // Trigger confetti explosion!
+        });
+
+        function closeMessage() {
+            messageDiv.classList.remove('show');
+        }
+
+        nextToQuizBtn.addEventListener('click', () => {
+            messageDiv.classList.remove('show');
+            quizSection.classList.add('show');
+        });
+
+        nextToDateBtn.addEventListener('click', () => {
+            quizSection.classList.remove('show');
+            dateSection.classList.add('show');
+        });
+
+        submitDateBtn.addEventListener('click', () => {
+            const enteredDate = dateInput.value.trim();
+            // Accept dd/mm/yyyy format - Correct date: 08/11/2025
+            if (enteredDate === '08/11/2025') {
+                dateResponse.textContent = 'Yes babygirl you are always right. ✅';
+                dateResponse.style.color = '#28a745';
+                wrongGif.style.display = 'none';
+                photosSection.classList.add('show');
+                valentinesWeek.classList.add('show');
+                hugSection.classList.add('show');
+            } else {
+                dateResponse.textContent = 'Wrong date! Try again... 😢';
+                dateResponse.style.color = '#dc3545';
+                wrongGif.style.display = 'block';
+                photosSection.classList.remove('show');
+                valentinesWeek.classList.remove('show');
+                hugSection.classList.remove('show');
+                specialMessage.classList.remove('show');
+                giftSection.classList.remove('show');
+                finalSection.classList.remove('show');
+            }
+        });
+
+        // Hug question logic
+        submitHugBtn.addEventListener('click', () => {
+            const answer = hugInput.value.trim().toLowerCase();
+            if (answer === 'anshika') {
+                hugResponse.textContent = 'Correct! Here is your hug 🤗💕';
+                hugResponse.style.color = '#28a745';
+                hugGif.classList.add('show');
+                specialMessage.classList.add('show');
+                giftSection.classList.add('show');
+                finalSection.classList.add('show'); // Show final section immediately
+            } else {
+                hugResponse.textContent = 'Wrong answer! Try again... 😢';
+                hugResponse.style.color = '#dc3545';
+                hugGif.classList.remove('show');
+                specialMessage.classList.remove('show');
+                giftSection.classList.remove('show');
+                finalSection.classList.remove('show');
+            }
+        });
+
+        // Quiz logic - SET THE CORRECT ANSWERS HERE
+        // Change 'A' or 'B' to match your actual answers!
+        const correctAnswers = {
+            '1': 'B',  // Question 1: You said "I love you" first
+            '2': 'A',  // Question 2: Me (I kissed first)
+            '3': 'B'   // Question 3: Green t-shirt
+        };
+
+        document.querySelectorAll('.option-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const question = e.target.getAttribute('data-question');
+                const option = e.target.getAttribute('data-option');
+                
+                if (question === '1') {
+                    if (option === correctAnswers['1']) {
+                        response1.textContent = '✅ Correct! You remember!';
+                        response1.style.color = '#28a745';
+                    } else {
+                        response1.textContent = '❌ Oops! Try again!';
+                        response1.style.color = '#dc3545';
+                    }
+                }
+                
+                if (question === '2') {
+                    if (option === correctAnswers['2']) {
+                        response2.textContent = '✅ Correct, you remember, yess you did and I still remember that moment. We can talk about it whenever you want to ehehehe 🙈';
+                        response2.style.color = '#28a745';
+                    } else {
+                        response2.textContent = '❌ Nope! Think again!';
+                        response2.style.color = '#dc3545';
+                    }
+                }
+                
+                if (question === '3') {
+                    if (option === correctAnswers['3']) {
+                        response3.textContent = '✅ Correct! You looked so cute in my green t-shirt 💚';
+                        response3.style.color = '#28a745';
+                    } else {
+                        response3.textContent = '❌ Wrong color! Try again!';
+                        response3.style.color = '#dc3545';
+                    }
+                }
+            });
+        });
+        
+        // Floating Hearts Animation
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '💕';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            document.body.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 7000);
+        }
+        
+        // Create hearts every 800ms
+        setInterval(createHeart, 800);
+        
+        // Confetti Explosion
+        function createConfetti() {
+            const colors = ['#d63384', '#ff69b4', '#ff1493', '#c71585', '#ffc0cb'];
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.classList.add('confetti');
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animation = `confetti-fall ${Math.random() * 3 + 2}s linear forwards`;
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 5000);
+                }, i * 30);
+            }
+        }
+        
+        // Photo Gallery Modal
+        const photoModal = document.getElementById('photoModal');
+        const modalImage = document.getElementById('modalImage');
+        const modalCaption = document.getElementById('modalCaption');
+        const modalClose = document.getElementById('modalClose');
+        const galleryPhotos = document.querySelectorAll('.gallery-photo');
+        
+        galleryPhotos.forEach(photo => {
+            photo.addEventListener('click', () => {
+                photoModal.classList.add('show');
+                modalImage.src = photo.src;
+                modalCaption.textContent = photo.getAttribute('data-caption');
+            });
+        });
+        
+        modalClose.addEventListener('click', () => {
+            photoModal.classList.remove('show');
+        });
+        
+        photoModal.addEventListener('click', (e) => {
+            if (e.target === photoModal) {
+                photoModal.classList.remove('show');
+            }
+        });
+        
+        // Valentine's Week Card Flip
+        const dayCards = document.querySelectorAll('.day-card');
+        dayCards.forEach(card => {
+            card.addEventListener('click', () => {
+                card.classList.toggle('flipped');
+            });
+            // Also support touch for mobile
+            card.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                card.classList.toggle('flipped');
+            });
+        });
+        
+        // Gift Selection
+        const giftOptions = document.querySelectorAll('.gift-option');
+        let selectedGift = null;
+        
+        giftOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const giftType = option.getAttribute('data-gift');
+                const giftName = option.querySelector('.gift-name').textContent;
+                
+                // Remove previous selection
+                giftOptions.forEach(opt => opt.classList.remove('selected'));
+                
+                // Mark current as selected
+                option.classList.add('selected');
+                selectedGift = giftType;
+                
+                // Customize these messages for each gift!
+                const giftMessages = {
+                    'gift1': 'Perfect choice! I remember hmne kitni baat ki thi  about this  watch now it will be coming you way shortly!!! 💕', // Change this message
+                    'gift2': 'Great choice! Isme aap chaii peeyo biscuit khao din bhar😎', // Change this message
+                    'gift3': 'Dhurandhar jaise sbka naam likho isme, mera mt likhna bas 🙂 🎁', // Change this message
+                    'gift4': 'A Sunflower for my sunshine 🌻' // Change this message
+                };
+                
+                giftResponse.textContent = giftMessages[giftType];
+                giftResponse.style.color = '#d63384';
+                giftResponse.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>
